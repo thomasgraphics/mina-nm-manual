@@ -29,7 +29,7 @@ LAYOUT: láminas 16:9 a pantalla completa con barra de navegación, índice, ret
   color-scheme:light;
 }
 *{box-sizing:border-box;min-width:0}
-html{scroll-snap-type:y mandatory;scroll-behavior:auto;overscroll-behavior-y:none}
+html{scroll-snap-type:y mandatory;scroll-behavior:auto}
 html.jumping{scroll-snap-type:none}
 body{margin:0;background:var(--negro);color:var(--negro);font:16px/1.6 var(--f-b);overflow-x:clip;-webkit-font-smoothing:antialiased}
 img{display:block;max-width:100%}
@@ -191,7 +191,8 @@ body.grid-on .grid{opacity:1}
 .s-div{justify-content:flex-end}
 .s-div .giant{position:absolute;right:-6vw;top:50%;width:min(84vw,1500px);transform:translateY(-50%);z-index:0}
 .s-div .giant .lg{--la:#fff;--lb:#fff;--lm:#fff;filter:url(#stone)}
-.s-div .title{position:relative;z-index:2;mix-blend-mode:multiply}
+.s-div .title{position:relative;z-index:2;mix-blend-mode:multiply;max-width:100%}
+.s-div .title .ln>span{white-space:nowrap}
 .s-div .chap{position:absolute;top:var(--py);left:var(--px);z-index:2;font-family:var(--f-d);font-stretch:125%;font-size:clamp(20px,2vw,30px);font-weight:300}
 .div-list{position:absolute;top:var(--py);right:var(--px);z-index:3;list-style:none;margin:0;padding:0;min-width:min(320px,60vw)}
 .div-list button{display:flex;justify-content:space-between;width:100%;gap:18px;border:0;background:none;border-bottom:1px solid rgba(12,12,12,.25);padding:6px 0;cursor:pointer;font-family:var(--f-d);font-stretch:125%;font-size:12px;letter-spacing:.08em;text-transform:uppercase;text-align:left}
@@ -422,9 +423,9 @@ body.grid-on .grid{opacity:1}
 .mi .st{padding-top:22px}
 .mi .iso{width:52%}.mi .word{width:100%}
 .mi .lg,.mi .word,.mi .iso,.mi .alt{transition:transform .8s var(--ease),filter .6s,opacity .5s}
-.mi .lab{display:flex;justify-content:space-between;align-items:center;font-size:13px;gap:10px}
+.mi .lab{position:relative;z-index:3;background:#fff;padding-top:6px;display:flex;justify-content:space-between;align-items:center;font-size:13px;gap:10px}
 .mi .lab b{font-weight:600}
-.mi .box{position:relative;width:min(230px,80%)}
+.mi .box{position:relative;width:min(220px,66%)}
 .mi .box::after{content:"";position:absolute;inset:-12% -6%;pointer-events:none;z-index:2;background:linear-gradient(to top right,transparent calc(50% - 1.25px),var(--rojo) calc(50% - 1.25px),var(--rojo) calc(50% + 1.25px),transparent calc(50% + 1.25px));clip-path:inset(0 0 0 0);transition:clip-path .7s var(--ease)}
 .mi:hover .box::after,.mi:focus-within .box::after{clip-path:inset(0 0 0 100%)}
 .mi .badge{position:absolute;top:12px;left:12px;z-index:3;display:inline-flex;align-items:center;gap:6px;height:26px;padding:0 10px;border-radius:99px;font-family:var(--f-d);font-stretch:125%;font-size:9.5px;letter-spacing:.2em;text-transform:uppercase;background:#fbe3de;color:#8f1f10;transition:background .4s,color .4s}
@@ -436,8 +437,8 @@ body.grid-on .grid{opacity:1}
 .mi:hover .badge .t1{display:none}.mi:hover .badge .t2{display:inline}
 .mi:hover .badge i::before{height:6px;top:4px;left:1px;transform:rotate(-45deg)}
 .mi:hover .badge i::after{height:11px;top:-1px;left:6px;transform:rotate(45deg)}
-.mi[data-e=deform] .lgset{transform:scale(1.5,.72)}
-.mi[data-e=rotate] .lgset{transform:rotate(-14deg)}
+.mi[data-e=deform] .lgset{transform:scale(1.32,.76)}
+.mi[data-e=rotate] .lgset{transform:rotate(-10deg)}
 .mi[data-e=shadow] .lgset{filter:drop-shadow(6px 8px 0 rgba(12,12,12,.35)) drop-shadow(0 0 1px #d8341e)}
 .mi[data-e=shadow] .lg path{stroke:var(--rojo);stroke-width:1.5px;vector-effect:non-scaling-stroke}
 .mi[data-e=order] .iso{transform:translateY(var(--dy1))}
@@ -553,7 +554,8 @@ body.grid-on .grid{opacity:1}
 .cr-brand:hover{color:var(--ocre)}
 .cr-brand:hover svg{transform:translate(3px,-3px)}
 .cr-r{display:flex;gap:clamp(18px,3vw,48px);flex-wrap:wrap;font-size:14px;line-height:1.45}
-.cr-r span{display:grid;color:rgba(245,242,232,.78)}
+.cr-r span{display:grid;align-content:start;color:rgba(245,242,232,.78)}
+.cr-who{max-width:34ch}
 .cr-r b{font-weight:600;color:var(--hueso)}
 .cr-r a{color:var(--ocre);font-weight:600;text-underline-offset:4px}
 .cr-r a:hover{color:#ffb03f}
@@ -576,7 +578,6 @@ body.grid-on .grid{opacity:1}
   .types,.mono,.dl{grid-template-columns:minmax(0,1fr)}
   .dl-r{position:relative;top:auto;order:-1}
   .bar .mid{display:none}.bar{grid-template-columns:auto minmax(0,1fr)}
-  .div-list{position:relative;top:auto;right:auto;margin-bottom:28px;order:-1;align-self:flex-end}
   .s-div .giant{width:130vw;right:-40vw}
   .rail .shot{flex-basis:82vw}
 }
@@ -595,6 +596,18 @@ body.grid-on .grid{opacity:1}
   .vthumbs{grid-template-columns:repeat(2,minmax(0,1fr))}
   .mis{grid-template-columns:minmax(0,1fr)}
   .dl-marks{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .tiles{grid-template-columns:minmax(0,1fr)}
+  .hint{width:88%;letter-spacing:.22em;line-height:1.7;top:calc(var(--py) - 8px)}
+  .cover-meta{letter-spacing:.25em}
+  .prot{width:100%}
+  .mi{min-height:210px}
+  .mi .box{width:min(210px,64%)}
+  .mi[data-e=deform] .lgset{transform:scale(1.28,.78)}
+  .mi[data-e=rotate] .lgset{transform:rotate(-9deg)}
+  .mi .lab{position:relative;z-index:3;background:#fff;padding-top:6px}
+  .tile{min-height:0;grid-template-rows:auto auto auto}
+  .tile .tb{position:static;opacity:1;transform:none;margin-top:10px;justify-content:flex-start;flex-wrap:wrap}
+  .tile .tb button{min-height:40px;padding:0 16px}
   .dl-fmts{grid-template-columns:repeat(2,minmax(0,1fr))}
   .dl-alt{grid-template-columns:minmax(0,1fr)}
   .dl,.dl-l,.dl-r{display:flex;flex-direction:column;gap:14px}
@@ -1030,7 +1043,7 @@ body.grid-on .grid{opacity:1}
     <div class="cr-l"><span class="meta">Manual interactivo diseñado por</span>
       <a class="cr-brand" href="https://thomgraphics.com" target="_blank" rel="noopener">Thomgraphics<svg viewBox="0 0 12 12" aria-hidden="true"><path d="M3 9L9 3M4 3h5v5" fill="none" stroke="currentColor" stroke-width="1.4"/></svg></a></div>
     <div class="cr-r">
-      <span><b>Thomas Felipe Hernández</b>Senior UX/UI &amp; Brand Designer</span>
+      <span class="cr-who"><b>Thomas Felipe Hernández</b>Profesional en Artes Visuales<br>Maestrante en Diseño de Experiencia de Usuario</span>
       <span><b>Villavicencio, Colombia</b><a href="https://thomgraphics.com" target="_blank" rel="noopener">thomgraphics.com</a></span>
       <span><b>Brandbook</b>V 1.0 · 2026</span>
     </div>
@@ -1180,6 +1193,10 @@ if(!fine)document.body.classList.remove('has-cur');
 addEventListener('pointermove',e=>{mx=e.clientX;my=e.clientY;cu.classList.toggle('big',!!e.target.closest('button,a,.shot,.tile,.mi,[data-crack],textarea,input'))},{passive:true});
 (function cl(){cx+=(mx-cx)*.22;cy+=(my-cy)*.22;cu.style.transform=`translate3d(${cx}px,${cy}px,0) skewX(-41deg)`;requestAnimationFrame(cl)})();
 
+/* títulos de divisores: cada línea cabe completa en el ancho disponible */
+function fitTitles(){$$('.s-div .title').forEach(t=>{t.style.fontSize='';const avail=t.parentElement.clientWidth-parseFloat(getComputedStyle(t.parentElement).paddingLeft)-parseFloat(getComputedStyle(t.parentElement).paddingRight);
+  const lines=$$('.ln>span',t);const w=Math.max(...lines.map(l=>l.scrollWidth));const fs=parseFloat(getComputedStyle(t).fontSize);if(w>avail)t.style.fontSize=Math.floor(fs*avail/w*.98)+'px'})}
+fitTitles();addEventListener('resize',fitTitles);document.fonts&&document.fonts.ready.then(fitTitles);
 /* ---------- crack parallax on giant isotipos ---------- */
 /* parallax del isotipo como unidad: nunca se separan ni deforman sus piezas */
 $$('[data-crack]').forEach(g=>{
@@ -1407,7 +1424,7 @@ addEventListener('resize',make);make();
 {
 const pr=$('#prot');
 function setX(){const lg=$('.inner .lg',pr);const a=$('.p-a',lg);if(!a)return;const bb=a.getBBox();const sc=lg.getBoundingClientRect().width/B.vert.w;const x=Math.max(14,bb.width*sc*.62);pr.style.setProperty('--x',x+'px')}
-setX();addEventListener('resize',setX);
+setX();addEventListener('resize',setX);new IntersectionObserver(e=>{if(e[0].isIntersecting)setX()}).observe(pr);document.fonts&&document.fonts.ready.then(setX);
 }
 
 /* ---------- tamaño mínimo ---------- */
