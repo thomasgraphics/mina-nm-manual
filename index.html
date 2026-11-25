@@ -1265,7 +1265,12 @@ const cu=$('#cur');let mx=-100,my=-100,cx=-100,cy=-100;
 const fine=matchMedia('(hover:hover) and (pointer:fine)').matches;
 if(!fine)document.body.classList.remove('has-cur');
 addEventListener('pointermove',e=>{mx=e.clientX;my=e.clientY;cu.classList.toggle('big',!!e.target.closest('button,a,.shot,.tile,.mi,[data-crack],textarea,input'))},{passive:true});
-(function cl(){cx+=(mx-cx)*.22;cy+=(my-cy)*.22;cu.style.transform=`translate3d(${cx}px,${cy}px,0) skewX(-41deg)`;requestAnimationFrame(cl)})();
+/* clic: el cursor se comprime y vuelve con un pequeño rebote */
+let cs=1,cst=1;
+addEventListener('pointerdown',e=>{if(e.pointerType==='mouse')cst=.5},{passive:true});
+addEventListener('pointerup',()=>{cst=1},{passive:true});
+addEventListener('blur',()=>{cst=1});
+(function cl(){cx+=(mx-cx)*.22;cy+=(my-cy)*.22;cs+=(cst-cs)*(cst<cs?.45:.18);cu.style.transform=`translate3d(${cx}px,${cy}px,0) skewX(-41deg) scale(${cs.toFixed(3)})`;requestAnimationFrame(cl)})();
 
 /* títulos de divisores: cada línea cabe completa en el ancho disponible */
 function fitTitles(){$$('.s-div .title').forEach(t=>{t.style.fontSize='';const avail=t.parentElement.clientWidth-parseFloat(getComputedStyle(t.parentElement).paddingLeft)-parseFloat(getComputedStyle(t.parentElement).paddingRight);
@@ -1719,7 +1724,7 @@ setTimeout(()=>X3.warm(),2200);
 
 /* ---------- versión: si el navegador guardó una copia vieja, carga la publicada ---------- */
 {
-const BUILD='20261125054357';
+const BUILD='20261125105001';
 if(/^https?:/.test(location.protocol)&&!/claude|anthropic/.test(location.hostname)){
   fetch('version.txt?t='+Date.now(),{cache:'no-store'}).then(r=>r.ok?r.text():'').then(v=>{v=v.trim();
     if(v&&v!==BUILD&&!new URLSearchParams(location.search).has('v'+v))location.replace(location.pathname+'?v'+v+'=1#portada')}).catch(()=>{});
