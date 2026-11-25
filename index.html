@@ -909,7 +909,7 @@ body.grid-on .grid{opacity:1}
 <section class="slide t-hueso" id="variaciones" data-t="Variaciones" data-chap="B">
   <div class="head">
     <h2 class="d h2"><span class="ln"><span>Variaciones</span></span></h2>
-    <p class="lead fx" style="--i:1">Versiones vertical y horizontal, y sus formas completas y simplificadas. Descarga cada una en SVG, PNG, JPG o PDF.</p>
+    <p class="lead fx" style="--i:1">Versiones vertical y horizontal, y sus formas completas y simplificadas. Todas se descargan en la lámina siguiente.</p>
   </div>
   <div class="tiles" id="tiles"></div>
   <span class="pg">11 — 12</span>
@@ -1461,8 +1461,8 @@ setInterval(()=>{if(RM||!$('#tipografias').classList.contains('in'))return;ci=(c
 /* ---------- variaciones (tiles) ---------- */
 {
 const T=[['vert','Vertical','w3'],['horiz','Horizontal','w3'],['vert','Imagotipo completo',''],['logo','Logotipo',''],['iso','Isotipo',''],['simp','Imagotipo simplificado','w3'],['logoS','Logotipo simplificado','w3']];
-$('#tiles').innerHTML=T.map(([k,n,c],i)=>`<div class="tile ${c} fx" style="--i:${i+1}"><span class="cap">${n}</span><div class="tmark"><div style="max-width:${k==='iso'?'46%':k.startsWith('logo')?'80%':k==='horiz'?'86%':'52%'}">${svg(k)}</div></div><div class="tb"><button data-dlk="${k}">Descargar</button><button data-svg="${k}">SVG</button></div></div>`).join('');
-$$('[data-svg]').forEach(b=>b.onclick=()=>copy(svgFile(b.dataset.svg),'SVG copiado al portapapeles'));
+$('#tiles').innerHTML=T.map(([k,n,c],i)=>`<div class="tile ${c} fx" style="--i:${i+1}"><span class="cap">${n}</span><div class="tmark"><div style="max-width:${k==='iso'?'46%':k.startsWith('logo')?'80%':k==='horiz'?'86%':'52%'}">${svg(k)}</div></div></div>`).join('');
+
 }
 
 
@@ -1535,7 +1535,7 @@ const DL=(()=>{
   update();
   return{pick(k){const i=MK.findIndex(x=>x[0]===k);if(i>=0){sel.m=i;update('m')}}};
 })();
-$$('[data-dlk]').forEach(b=>b.onclick=()=>{DL.pick(b.dataset.dlk);go(byId('descargas'))});
+
 
 /* ---------- versiones de color ---------- */
 {
