@@ -1717,6 +1717,15 @@ function play3d(t){
 }
 setTimeout(()=>X3.warm(),2200);
 
+/* ---------- versión: si el navegador guardó una copia vieja, carga la publicada ---------- */
+{
+const BUILD='20261125054357';
+if(/^https?:/.test(location.protocol)&&!/claude|anthropic/.test(location.hostname)){
+  fetch('version.txt?t='+Date.now(),{cache:'no-store'}).then(r=>r.ok?r.text():'').then(v=>{v=v.trim();
+    if(v&&v!==BUILD&&!new URLSearchParams(location.search).has('v'+v))location.replace(location.pathname+'?v'+v+'=1#portada')}).catch(()=>{});
+}
+}
+
 /* ---------- tema: automático por la hora del dispositivo (oscuro de 18:00 a 06:00) ---------- */
 {
 const H=document.documentElement,tc=document.querySelector('meta[name=theme-color]');
