@@ -474,6 +474,42 @@ body.grid-on .grid{opacity:1}
 .rail-bar{flex:1;height:2px;background:rgba(12,12,12,.12);position:relative;overflow:hidden}
 .rail-bar i{position:absolute;inset:0;background:var(--cafe);transform-origin:left;transform:scaleX(var(--p,.25))}
 
+/* ruido de televisión global */
+.tv{position:fixed;inset:0;z-index:96;pointer-events:none;opacity:var(--tvo,.085);mix-blend-mode:overlay;background-image:var(--tvs);background-size:256px 2048px;image-rendering:pixelated}
+.tv::after{content:"";position:absolute;inset:0;background:repeating-linear-gradient(0deg,rgba(0,0,0,.55) 0 1px,transparent 1px 3px);opacity:.35}
+.tv::before{content:"";position:absolute;left:0;right:0;height:22vh;top:-22vh;background:linear-gradient(180deg,transparent,rgba(255,255,255,.55),transparent);opacity:.5;animation:roll 9s linear infinite}
+@keyframes roll{to{transform:translateY(144vh)}}
+@media (prefers-reduced-motion:reduce){.tv::before{display:none}}
+
+/* logo animado */
+.la-slide{background:radial-gradient(120% 90% at 50% 30%,#55341d 0%,#412615 45%,#24150b 100%);align-items:center;gap:clamp(14px,2.4vh,26px)}
+.la-head{width:min(1040px,100%);display:flex;justify-content:space-between;align-items:flex-end;gap:16px 40px;flex-wrap:wrap}
+.la-head .lead{max-width:52ch;margin:0;opacity:.85}
+.la-player{width:min(1040px,100%,calc((100svh - 330px) * 1.778));display:grid;gap:12px;outline:none}
+.la-screen{position:relative;aspect-ratio:16/9;border-radius:6px;overflow:hidden;background:var(--lab,#412615);box-shadow:0 40px 80px -40px rgba(0,0,0,.8),inset 0 0 0 1px rgba(245,242,232,.08);transition:background .6s var(--ease)}
+.la-screen::after{content:"";position:absolute;inset:0;background-image:var(--noise);background-size:180px;opacity:.22;mix-blend-mode:overlay;pointer-events:none;animation:grain .5s steps(4) infinite}
+.la-screen canvas{position:absolute;inset:0;width:100%;height:100%}
+.la-tl{position:relative;height:26px;cursor:ew-resize;touch-action:none}
+.la-ticks{position:absolute;inset:0;display:flex;justify-content:space-between;align-items:flex-end}
+.la-ticks i{width:1px;height:7px;background:currentColor;opacity:.35}
+.la-ticks i.t8{height:13px;opacity:.6}
+.la-ticks i.on{opacity:.9}
+.la-head-l{position:absolute;top:0;bottom:0;width:2px;background:var(--ocre);left:0;transform:translateX(-50%);box-shadow:0 0 8px rgba(243,157,37,.6)}
+.la-ctrl{display:flex;justify-content:space-between;align-items:center;gap:12px 24px;flex-wrap:wrap}
+.la-l,.la-r{display:flex;align-items:center;gap:10px}
+.la-b{width:40px;height:40px;border:0;background:none;color:inherit;cursor:pointer;font-size:18px;opacity:.75;border-radius:50%;transition:background .25s,opacity .25s}
+.la-b:hover{opacity:1;background:rgba(245,242,232,.08)}
+.la-play{min-width:104px;height:40px;border:1px solid rgba(245,242,232,.45);background:none;color:inherit;cursor:pointer;font-family:var(--f-d);font-stretch:125%;font-size:11px;letter-spacing:.3em;text-transform:uppercase;padding:0 16px;transition:background .25s,color .25s,border-color .25s}
+.la-play:hover{background:var(--ocre);color:var(--negro);border-color:var(--ocre)}
+.la-cnt{font-family:var(--f-d);font-stretch:125%;font-weight:300;font-size:clamp(20px,2vw,28px);letter-spacing:.02em;font-variant-numeric:tabular-nums;margin-left:8px}
+.la-bgn{font-family:var(--f-d);font-stretch:125%;font-size:11px;letter-spacing:.3em;text-transform:uppercase;opacity:.8;margin-right:4px}
+.la-sws{display:flex;gap:6px}
+.la-sws button{width:30px;height:30px;border:1px solid rgba(245,242,232,.25);background:var(--c);cursor:pointer;padding:0;outline-offset:3px;transition:transform .25s}
+.la-sws button:hover{transform:translateY(-2px)}
+.la-sws button[aria-checked=true]{outline:1.5px solid var(--hueso)}
+.la-cap{margin:0;text-align:center;font-family:var(--f-d);font-stretch:125%;font-size:10.5px;letter-spacing:.24em;text-transform:uppercase;opacity:.6}
+@media(max-width:600px){.la-player{width:100%}.la-cnt{font-size:18px}.la-cap{letter-spacing:.12em}.la-ctrl{justify-content:center}}
+
 /* lightbox */
 .lb{position:fixed;inset:0;z-index:85;background:rgba(12,12,12,.92);display:grid;place-items:center;padding:clamp(16px,5vw,80px);opacity:0;pointer-events:none;transition:opacity .4s}
 .lb.on{opacity:1;pointer-events:auto}
@@ -577,6 +613,7 @@ body.grid-on .grid{opacity:1}
 </svg>
 
 <div class="ld" id="ld" aria-hidden="true"><div class="in"><div data-logo="iso"></div><div class="num" id="ldn">000</div></div></div>
+<div class="tv" id="tv" aria-hidden="true"></div>
 <div class="cur" id="cur"></div>
 <div class="grid" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
 <div class="tx" id="tx" aria-hidden="true"><i></i><i></i><i></i></div>
@@ -647,7 +684,29 @@ body.grid-on .grid{opacity:1}
   <span class="pg">03</span><span class="sig meta">Brandbook | Mina NM</span>
 </section>
 
-<!-- A/02 ANATOMÍA -->
+<!-- A/02 LOGO ANIMADO -->
+<section class="slide t-cafe la-slide" id="logo-animado" data-t="Logo animado" data-chap="A">
+  <div class="la-head">
+    <h2 class="d h2"><span class="ln"><span>Logo animado</span></span></h2>
+    <p class="lead fx" style="--i:1">El imagotipo se construye como se extrae el material: el grano cae, el símbolo emerge pieza por pieza y el nombre se asienta con peso.</p>
+  </div>
+  <div class="la-player fx" id="laPlayer" style="--i:2" tabindex="0" aria-label="Reproductor de la animación del imagotipo. Espacio para pausar, flechas para avanzar cuadro a cuadro.">
+    <div class="la-screen" id="laScreen"><canvas id="laCv" aria-label="Animación del imagotipo Mina NM"></canvas></div>
+    <div class="la-tl" id="laTl" role="slider" aria-label="Línea de tiempo" aria-valuemin="1" aria-valuemax="96" aria-valuenow="1"><div class="la-ticks" id="laTicks"></div><i class="la-head-l" id="laHead"></i></div>
+    <div class="la-ctrl">
+      <div class="la-l">
+        <button class="la-b" id="laPrev" aria-label="Cuadro anterior">←</button>
+        <button class="la-play" id="laPlay">Pausa</button>
+        <button class="la-b" id="laNext" aria-label="Cuadro siguiente">→</button>
+        <span class="la-cnt" id="laCnt">001 / 096</span>
+      </div>
+      <div class="la-r"><span class="la-bgn" id="laBgN">Café</span><div class="la-sws" id="laSws" role="radiogroup" aria-label="Fondo"></div></div>
+    </div>
+    <p class="la-cap">Animación del imagotipo · 24 fps animado en dos: 12 dibujos por segundo · 4 s en bucle</p>
+  </div>
+</section>
+
+<!-- A/03 ANATOMÍA -->
 <section class="slide t-hueso" id="anatomia" data-t="Anatomía" data-chap="A">
   <div class="head">
     <h2 class="d h2"><span class="ln"><span>Anatomía</span></span></h2>
@@ -1040,14 +1099,15 @@ document.addEventListener('click',e=>{
 });
 $('#prev').onclick=()=>go(idx()-1);$('#next').onclick=()=>go(idx()+1);
 /* rueda / trackpad: un gesto continuo avanza una sola lámina */
-let lastWheel=0,armed=true;
+let lastWheel=0,lastD=0,armed=true;
 addEventListener('wheel',e=>{
   if(e.ctrlKey)return;
   if(e.target.closest('.rail')&&Math.abs(e.deltaX)>Math.abs(e.deltaY))return;
   if($('#lb').classList.contains('on')){e.preventDefault();return}
-  const now=performance.now(),gap=now-lastWheel;lastWheel=now;
-  if(gap>220&&!anim&&now>lockUntil)armed=true;
-  const dy=e.deltaY;if(Math.abs(dy)<1)return;const dir=dy>0?1:-1;
+  const now=performance.now(),gap=now-lastWheel,dy=e.deltaY,pd=lastD;lastWheel=now;lastD=dy;
+  /* nuevo gesto: pausa larga, o un impulso claramente mayor que la inercia anterior (o cambio de sentido) */
+  if(!anim&&now>lockUntil&&gap>220&&(gap>600||Math.abs(dy)>=Math.max(40,Math.abs(pd)*1.6)||Math.sign(dy)!==Math.sign(pd)))armed=true;
+  if(Math.abs(dy)<1)return;const dir=dy>0?1:-1;
   const i=idx(),r=slides[i].getBoundingClientRect();
   if(!anim){ /* lámina más alta que la pantalla: deja recorrerla antes de saltar */
     if(dir>0&&r.bottom>innerHeight+24)return;
@@ -1071,7 +1131,7 @@ function toggleGrid(){const on=document.body.classList.toggle('grid-on');gb.setA
 gb.onclick=toggleGrid;
 
 /* index + divider lists */
-const IX={A:{n:'La marca',r:'02—09',ids:['imagotipo','anatomia','construccion','solidez','proteccion','tamano','colores','tipografias']},
+const IX={A:{n:'La marca',r:'02—09',ids:['imagotipo','logo-animado','anatomia','construccion','solidez','proteccion','tamano','colores','tipografias']},
           B:{n:'Usos y variaciones',r:'10—15',ids:['variaciones','descargas','version-color','monocromia','incorrectos']},
           C:{n:'Aplicaciones',r:'16—25',ids:['papeleria','dotacion','uniformes']}};
 const arrowSvg='<svg viewBox="0 0 40 14" aria-hidden="true"><path d="M0 7h36M30 1l7 6-7 6" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>';
@@ -1143,6 +1203,88 @@ sec.addEventListener('pointerleave',()=>{mouse.x=mouse.y=-9999});
 sec.addEventListener('click',e=>{if(e.target.closest('button,a'))return;const r=cv.getBoundingClientRect();const x=e.clientX-r.left,y=e.clientY-r.top;P.forEach(p=>{const dx=p.x-x,dy=p.y-y,d=Math.hypot(dx,dy)||1;const f=Math.min(60,5200/d);p.vx+=dx/d*f;p.vy+=dy/d*f;p.vr+=(Math.random()-.5)*.6})});
 let rT;addEventListener('resize',()=>{clearTimeout(rT);rT=setTimeout(()=>{build();t0=0},200)});
 new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){if(!started){build();started=true}if(!run){run=true;requestAnimationFrame(frame)}}else run=false})},{threshold:.05}).observe(sec);
+}
+
+
+/* ---------- ruido de televisión (global, 12 fps) ---------- */
+{
+const tv=$('#tv'),T=256,F=8,c=document.createElement('canvas');c.width=T;c.height=T*F;const x=c.getContext('2d'),im=x.createImageData(T,T*F),d=im.data;
+for(let i=0;i<d.length;i+=4){const v=Math.random()<.5?Math.random()*110:145+Math.random()*110;d[i]=d[i+1]=d[i+2]=v;d[i+3]=255}
+x.putImageData(im,0,0);tv.style.setProperty('--tvs',`url(${c.toDataURL('image/png')})`);
+if(!RM){let k=0;setInterval(()=>{if(document.hidden)return;k=(k+1)%F;tv.style.backgroundPosition=`${Math.floor(Math.random()*T)}px ${-k*T+Math.floor(Math.random()*40)}px`},83)}
+}
+
+/* ---------- logo animado (canvas, 96 cuadros a 24 fps, dibujado en dos) ---------- */
+{
+const cv=$('#laCv'),ctx=cv.getContext('2d'),scr=$('#laScreen'),sec=$('#logo-animado');
+const FR=96,o=B.vert;let f=0,playing=true,last=0,acc=0,vis=false,W=0,H=0,dpr=1;
+const P=o.p.map(([c,d])=>{const nums=[];d.replace(/[MLC]?([-\d.]+) ([-\d.]+)/g,(_,a,b)=>{nums.push([+a,+b])});let x0=1e9,y0=1e9,x1=-1e9,y1=-1e9;nums.forEach(([a,b])=>{x0=Math.min(x0,a);y0=Math.min(y0,b);x1=Math.max(x1,a);y1=Math.max(y1,b)});return{c,p:new Path2D(d),bb:[x0,y0,x1,y1]}});
+const ISO=P.filter(q=>'abm'.includes(q.c)),WORD=P.filter(q=>q.c==='w'||q.c==='n'),DESC=P.filter(q=>q.c==='d');
+const isoClip=new Path2D();ISO.forEach(q=>isoClip.addPath(q.p));
+const isoBottom=Math.max(...ISO.map(q=>q.bb[3])),isoTop=Math.min(...ISO.map(q=>q.bb[1]));
+const BGS=[['Café','#412615',{a:'#f39d25',b:'#f39d25',m:'#ffffff',w:'#f5f2e8',n:'#f39d25',d:'#f5f2e8'},'#f39d25'],['Ocre','#f39d25',{a:'#ffffff',b:'#ffffff',m:'#412615',w:'#0c0c0c',n:'#412615',d:'#0c0c0c'},'#412615'],['Hueso','#f5f2e8',{a:'#f39d25',b:'#f39d25',m:'#412615',w:'#0c0c0c',n:'#412615',d:'#0c0c0c'},'#d2c6ac'],['Negro','#0c0c0c',{a:'#f39d25',b:'#f39d25',m:'#ffffff',w:'#f5f2e8',n:'#f39d25',d:'#f5f2e8'},'#f39d25'],['Blanco','#ffffff',{a:'#f39d25',b:'#f39d25',m:'#412615',w:'#0c0c0c',n:'#412615',d:'#0c0c0c'},'#d2c6ac']];
+let bg=0;
+// pseudo-aleatorio estable
+let seed=7;const rnd=()=>{seed=(seed*16807)%2147483647;return seed/2147483647};
+const GR=Array.from({length:70},()=>({x:180+rnd()*130,y:isoBottom-4-rnd()*14,sx:rnd()*o.w,d:rnd()*8,s:3+rnd()*5,r:rnd()*6.28,tx:ISO[0].bb[0]+rnd()*(ISO[2].bb[2]-ISO[0].bb[0]),ty:isoTop+rnd()*(isoBottom-isoTop)}));
+const DU=Array.from({length:34},()=>({x:ISO[2].bb[0]+rnd()*(ISO[2].bb[2]-ISO[2].bb[0]),vx:(rnd()-.5)*9,vy:-3-rnd()*7,s:1.5+rnd()*3.5}));
+const cl=v=>Math.max(0,Math.min(1,v)),eo=t=>1-Math.pow(1-t,3),eio=t=>t<.5?4*t*t*t:1-Math.pow(-2*t+2,3)/2,eb=t=>{const c1=1.70158,c3=c1+1;return 1+c3*Math.pow(t-1,3)+c1*Math.pow(t-1,2)};
+const DIRB=(()=>{const L=Math.hypot(321,373);return[321/L,373/L]})();
+function stone(x,y,s,r,col){ctx.save();ctx.translate(x,y);ctx.rotate(r);ctx.beginPath();for(let i=0;i<6;i++){const a=i/6*6.283,rr=s*(.7+.3*Math.sin(i*2.7+r*3));ctx.lineTo(Math.cos(a)*rr,Math.sin(a)*rr)}ctx.closePath();ctx.fillStyle=col;ctx.fill();ctx.restore()}
+function size(){const r=scr.getBoundingClientRect();dpr=Math.min(devicePixelRatio||1,2);W=r.width;H=r.height;cv.width=Math.round(W*dpr);cv.height=Math.round(H*dpr);draw()}
+function draw(){
+  if(!W)return;const fs=f-(f%2),[,,C,dust]=BGS[bg];
+  ctx.setTransform(dpr,0,0,dpr,0,0);ctx.clearRect(0,0,W,H);
+  const sc=Math.min(W*.46/o.w,H*.6/o.h),ox=(W-o.w*sc)/2,oy=(H-o.h*sc)/2;
+  // sacudida al impacto de la M
+  const sh=fs>=34&&fs<=40?(1-(fs-34)/6)*6:0,shx=sh?((fs%4)-1.5)*sh*.6:0,shy=sh?(((fs+1)%4)-1.5)*sh:0;
+  const out=cl((fs-86)/9),ga=1-out;
+  ctx.setTransform(dpr*sc,0,0,dpr*sc,dpr*(ox+shx),dpr*(oy+shy));ctx.globalAlpha=ga;
+  // 1 · grano que cae y se recoge en el símbolo
+  GR.forEach((g,i)=>{const fall=eo(cl((fs-g.d)/10)),gather=eio(cl((fs-12-g.d*.5)/12));if(gather>=1)return;
+    let x=g.sx+(g.x-g.sx)*fall*.0+ (g.x-g.sx)*fall, y=-60+(g.y+60)*fall;
+    x=x+(g.tx-x)*gather;y=y+(g.ty-y)*gather;ctx.globalAlpha=ga*(1-gather)*cl(fs/2+.3);stone(x,y,g.s*(1-gather*.6),g.r+fs*.05,i%3?C.a:C.m)});
+  ctx.globalAlpha=ga;
+  // 2 · piezas del isotipo
+  const pa=eo(cl((fs-12)/14)),pb=eo(cl((fs-16)/14)),pm=eb(cl((fs-22)/12));
+  ctx.save();ctx.beginPath();ctx.rect(-50,-400,o.w+100,isoBottom+400);ctx.clip();
+  if(pa>0){ctx.save();ctx.translate(0,(1-pa)*(isoBottom-isoTop+8));ctx.fillStyle=C.a;ctx.fill(ISO[0].p);ctx.restore()}
+  ctx.restore();
+  if(pb>0){ctx.save();ctx.globalAlpha=ga*cl(pb*2);ctx.translate(-DIRB[0]*(1-pb)*260,-DIRB[1]*(1-pb)*260);ctx.fillStyle=C.b;ctx.fill(ISO[1].p);ctx.restore()}
+  if(fs>=22){ctx.save();ctx.globalAlpha=ga*cl((fs-22)/3);ctx.translate(0,-(1-pm)*240);ctx.fillStyle=C.m;ctx.fill(ISO[2].p);ctx.restore()}
+  // polvo del impacto
+  if(fs>=34&&fs<62){const t=(fs-34);DU.forEach(p=>{const x=p.x+p.vx*t,y=isoBottom+p.vy*t+.45*t*t;if(y>isoBottom+4)return;ctx.globalAlpha=ga*cl(1-t/26)*.9;stone(x,y,p.s,t*.2+p.x,dust)})}
+  ctx.globalAlpha=ga;
+  // 3 · nombre: cada letra se asienta con peso
+  WORD.forEach((q,i)=>{const t=cl((fs-38-i*3)/4);if(t<=0)return;const [x0,y0,x1,y1]=q.bb,cx=(x0+x1)/2,cy=y1,s=1+(1-eo(t))*.35;
+    ctx.save();ctx.globalAlpha=ga*cl(t*1.6);ctx.translate(cx,cy);ctx.scale(s,s);ctx.translate(-cx,-cy-(1-eo(t))*18);ctx.fillStyle=C[q.c];ctx.fill(q.p);ctx.restore()});
+  // 4 · descriptor: el tracking se cierra
+  DESC.forEach((q,i)=>{const t=eo(cl((fs-56-i*.8)/10));if(t<=0)return;ctx.save();ctx.globalAlpha=ga*t;ctx.translate((i-7.5)*14*(1-t),0);ctx.fillStyle=C.d;ctx.fill(q.p);ctx.restore()});
+  // 5 · destello diagonal sobre el símbolo
+  if(fs>=66&&fs<=82){const t=(fs-66)/16;ctx.save();ctx.clip(isoClip);const x=-200+t*(o.w+500);const g=ctx.createLinearGradient(x-90,0,x+90,0);g.addColorStop(0,'rgba(255,255,255,0)');g.addColorStop(.5,'rgba(255,255,255,.55)');g.addColorStop(1,'rgba(255,255,255,0)');
+    ctx.setTransform(dpr*sc,0,dpr*sc*-.87,dpr*sc,dpr*(ox+shx),dpr*(oy+shy));ctx.fillStyle=g;ctx.fillRect(-200,isoTop-20,o.w+800,isoBottom-isoTop+40);ctx.restore()}
+  ctx.globalAlpha=1;ui();
+}
+// UI
+const tk=$('#laTicks'),hd=$('#laHead'),cnt=$('#laCnt'),tl=$('#laTl');
+tk.innerHTML=Array.from({length:FR},(_,i)=>`<i class="${i%8===0?'t8':''}"></i>`).join('');const ticks=$$('i',tk);
+function ui(){hd.style.left=(f/(FR-1)*100)+'%';cnt.textContent=String(f+1).padStart(3,'0')+' / '+FR;tl.setAttribute('aria-valuenow',f+1);ticks.forEach((t,i)=>t.classList.toggle('on',i<=f))}
+const sws=$('#laSws');sws.innerHTML=BGS.map(([n,c],i)=>`<button role="radio" aria-checked="${i===bg}" aria-label="Fondo ${n}" style="--c:${c}" data-i="${i}"></button>`).join('');
+$$('button',sws).forEach(b=>b.onclick=()=>{bg=+b.dataset.i;$$('button',sws).forEach(x=>x.setAttribute('aria-checked',x===b));scr.style.setProperty('--lab',BGS[bg][1]);$('#laBgN').textContent=BGS[bg][0];draw()});
+scr.style.setProperty('--lab',BGS[bg][1]);
+const setPlay=v=>{playing=v;$('#laPlay').textContent=v?'Pausa':'Reproducir'};
+$('#laPlay').onclick=()=>setPlay(!playing);
+$('#laPrev').onclick=()=>{setPlay(false);f=(f-1+FR)%FR;draw()};
+$('#laNext').onclick=()=>{setPlay(false);f=(f+1)%FR;draw()};
+$('#laPlayer').addEventListener('keydown',e=>{if(e.key===' '){e.preventDefault();e.stopPropagation();setPlay(!playing)}if(e.key==='ArrowRight'){e.preventDefault();e.stopPropagation();$('#laNext').click()}if(e.key==='ArrowLeft'){e.preventDefault();e.stopPropagation();$('#laPrev').click()}});
+let scrub=false;const toF=e=>{const r=tl.getBoundingClientRect();f=Math.round(cl((e.clientX-r.left)/r.width)*(FR-1));draw()};
+tl.addEventListener('pointerdown',e=>{scrub=true;setPlay(false);tl.setPointerCapture(e.pointerId);toF(e)});
+tl.addEventListener('pointermove',e=>{if(scrub)toF(e)});
+tl.addEventListener('pointerup',()=>{scrub=false});
+function loop(t){if(!vis)return;if(!last)last=t;acc+=t-last;last=t;if(playing&&!RM){while(acc>=1000/24){acc-=1000/24;f=(f+1)%FR;if(f%2===0)draw();else ui()}}else acc=0;requestAnimationFrame(loop)}
+new IntersectionObserver(es=>{es.forEach(e=>{vis=e.isIntersecting;if(vis){size();last=0;requestAnimationFrame(loop)}})},{threshold:.15}).observe(sec);
+addEventListener('resize',()=>{if(vis)size()});
+if(RM){f=FR-12;}
 }
 
 /* ---------- anatomía ---------- */
