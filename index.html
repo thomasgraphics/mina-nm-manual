@@ -710,7 +710,7 @@ html.night .tile,html.night .mi,html.night .opt,html.night .dl-kit,html.night .d
 <div class="x3d" id="x3d" aria-hidden="true"><div class="bg"></div><canvas id="x3c"></canvas><p class="lbl" id="x3l"><span class="ch" id="x3ch"></span><span class="nm" id="x3nm"></span></p></div>
 
 <header class="bar">
-  <a class="brand" href="#portada" aria-label="Mina NM, inicio" data-go="portada"><div data-logo="logoS"></div></a>
+  <a class="brand" href="#portada" aria-label="Mina NM, recargar e ir a la portada" id="brandLink"><div data-logo="logoS"></div></a>
   <div class="mid meta" id="barSec">Portada</div>
   <div class="right">
     <div class="cnt" aria-live="polite"><b id="cNow">01</b> <span>/ <span id="cAll">21</span></span></div>
@@ -1196,6 +1196,7 @@ document.addEventListener('click',e=>{
   const g=e.target.closest('[data-go]');if(g){e.preventDefault();go(byId(g.dataset.go),true)}
   const tk=e.target.closest('#ticks button');if(tk)go(+tk.dataset.i,Math.abs(+tk.dataset.i-idx())>1);
 });
+$('#brandLink').addEventListener('click',e=>{e.preventDefault();try{history.replaceState(null,'','#portada')}catch(_){}scrollTo(0,0);location.reload()});
 $('#prev').onclick=()=>go(idx()-1);$('#next').onclick=()=>go(idx()+1);
 /* rueda / trackpad: un gesto continuo avanza una sola lámina */
 let lastWheel=0,lastD=0,armed=true;
